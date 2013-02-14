@@ -20,7 +20,11 @@ class PasswordHasher(object):
         code = self._make_hmac(salt, password)
         return PasswordStorables(code, salt)
 
+    def check(self, password, salt, hmac):
+        return hmac == self._make_hmac(salt, password)
+
     def _make_hmac(self, salt, password):
+        # XXX: maybe its own class
         salted_password = self._add_salt(salt, password)
         pw_hmac = hmac.new(self._hmac_key, salted_password, hashlib.sha1)
         return binascii.hexlify(pw_hmac.digest())
@@ -31,4 +35,3 @@ class PasswordHasher(object):
     @staticmethod
     def _add_salt(salt, password):
         return salt + password
-
