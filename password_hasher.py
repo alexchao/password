@@ -10,6 +10,13 @@ PasswordStorables = namedtuple('PasswordStorables', 'hmac salt')
 
 
 class PasswordHasher(object):
+    """Given a HMAC key and salt length, hashes a password and returns
+    its storable values: the HMAC and salt.
+
+    The salt is returned in hexadecimal representation. This returned
+    value is therefore twice as long as the salt_length provided.
+
+    """
 
     def __init__(self, hmac_key, salt_length):
         self._hmac_key = hmac_key
